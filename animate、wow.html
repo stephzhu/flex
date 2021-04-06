@@ -9,9 +9,11 @@
 
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/animate.min.css">
 
-
-
+    <!--wow.js依赖animate.css-->
+    <script src="js/wow.min.js"></script>
+    <script> new WOW().init(); </script>
 </head>
 <!--background-size-->
 <!--background-position-->
@@ -19,16 +21,16 @@
 <!-- 头部检索 -->
 <header>
     <div id="search" >
-        <div class="search-box">
+        <div class="search-box wow bounceInLeft	">
             <span>搜索:目的地/酒店/景点/航班号</span>
         </div>
-        <a href="" id="user">
+        <a href="" id="user" class="wow bounceInRight">
             <span>我 的</span>
         </a>
     </div>
 </header>
 <!-- 一日游导航 -->
-<nav class="" >
+<nav class="wow bounceIn" >
     <ul class="local-nav">
         <li><a href="#">
                     <span class="icon-local-scenic">
@@ -65,7 +67,7 @@
     </ul>
 </nav>
 <!-- 酒店航班 -->
-<section class="">
+<section class="wow fadeInUp">
     <div class="jdhb">
 
 
@@ -89,7 +91,7 @@
     </div>
 </section>
 <!-- 自由行 -->
-<section class="">
+<section class="wow slideInLeft ">
     <div id="zyx">
         <ul>
             <li><a href="#">
@@ -142,7 +144,7 @@
 <!--    -->
 <!--</section>-->
 <!-- 版权 -->
-<footer class="">
+<footer class="animated fadeInUp">
     <div id="footer">
         <a href="#">网站地图</a>
         <span>| </span><a href="#">laguage</a>
