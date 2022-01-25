@@ -1,156 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="./css/normalize.css">
-    <link rel="stylesheet" href="./css/index.css">
-
-
-
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>HTML5 手机摇一摇</title>
+ 
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+ 
+    <script type="text/javascript">
+        /**
+         * 颜色数组
+         * @type {Array}
+         */
+        var colorArray = new Array('#fff', '#ff0', '#f0f', '#0ff', '#f00', '#0f0', '#00f', "#000");
+        /**window.DeviceMotionEvent：判斷浏览器是否支持此时间*/
+        if (window.DeviceMotionEvent) {
+            /**
+             * speed：速度，根据摇一摇的动作幅度可以适当增加或减小
+             * cx、cy、cz：分别是当前在 x,y,z 3个方向上的加速度
+             * lastX、lastY、lastZ：分别是上一次在 x,y,z 3个方向上的加速度
+             */
+            var speed = 20;
+            var cx = cy = cz = lastX = lastY = lastZ = 0;
+ 
+            /**注册devicemotion(设备运动)事件
+             * Window.prototype.addEventListener = function(type,listener,useCapture)
+             * type：事件类型，如 devicemotion、deviceorientation、compassneedscalibration 等
+             * listener：事件触发的回调函数，也可以提取出来单独写
+             * useCapture：是否捕获
+             * */
+            window.addEventListener('devicemotion', function (evenData) {
+                /**获取重力加速度
+                 * x、y、z 三个属性，分别表示 3 个方向上的重力加速度
+                 * */
+                var acceleration = evenData.accelerationIncludingGravity;
+                cx = acceleration.x;
+                cy = acceleration.y;
+                cz = acceleration.z;
+ 
+                /**只要手机有稍微的抖动，就会进入此回调函数
+                 * 当某一个方向上的加速度超过 speed 的值时，改变背景色
+                 */
+                if (Math.abs(cx - lastX) > speed || Math.abs(cy - lastY) > speed || Math.abs(cz - lastZ) > speed) {
+                    document.body.style.backgroundColor = colorArray[Math.round(Math.random() * 10) % 8];
+ 
+                    /** 将数据打印出来瞧一瞧*/
+                    $("#x").append("cx:" + cx + "\r\n");
+                    $("#y").append("cy:" + cy + "\r\n");
+                    $("#z").append("cz:" + cz + "\r\n");
+                }
+                lastX = cx;
+                lastY = cy;
+                lastZ = cz;
+            }, true);
+        } else {
+            alert('您的浏览器不支持摇一摇功能.');
+        }
+    </script>
 </head>
-<!--background-size-->
-<!--background-position-->
 <body>
-<!-- 头部检索 -->
-<header>
-    <div id="search" >
-        <div class="search-box">
-            <span>搜索:目的地/酒店/景点/航班号</span>
-        </div>
-        <a href="" id="user">
-            <span>我 的</span>
-        </a>
-    </div>
-</header>
-<!-- 一日游导航 -->
-<nav class="" >
-    <ul class="local-nav">
-        <li><a href="#">
-                    <span class="icon-local-scenic">
-
-                    </span>
-            <span class="local-text">
-                        攻略·景点
-                    </span>
-        </a></li>
-        <li><a href="#"> <span class="icon-local-around">
-
-                    </span>
-            <span class="local-text">
-                        门票·活动
-                    </span></a></li>
-        <li><a href="#"> <span class="icon-local-food">
-
-                    </span>
-            <span class="local-text">
-                        美食林
-                    </span></a></li>
-        <li><a href="#"> <span class="icon-local-oneday">
-
-                    </span>
-            <span class="local-text">
-                        周边游
-                    </span></a></li>
-        <li><a href="#"> <span class="icon-local-strategy">
-
-                    </span>
-            <span class="local-text">
-                        一日游
-                    </span></a></li>
-    </ul>
-</nav>
-<!-- 酒店航班 -->
-<section class="">
-    <div class="jdhb">
-
-
-        <div class="hotal">
-            <a href=""><span>酒店</span></a>
-            <a href=""> <span> 民宿·客栈</span></a>
-            <a href=""> <span> 特价·爆款</span></a>
-        </div>
-        <div class="flight">
-            <a href=""><span>机票</span></a>
-            <a href=""> <span> 火车票</span></a>
-            <a href=""> <span> 汽车·船票</span></a>
-            <a href=""> <span> 专车·租车</span></a>
-        </div>
-        <div class="travel">
-            <a href=""><span>旅游</span></a>
-            <a href=""> <span> 私家团</span></a>
-            <a href=""> <span> 邮轮游</span></a>
-            <a href=""> <span> 定制游</span></a>
-        </div>
-    </div>
-</section>
-<!-- 自由行 -->
-<section class="">
-    <div id="zyx">
-        <ul>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-wifi"></span>
-                <span>WiFi电话</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-insurance"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-            <li><a href="#">
-                <span class="subnav-icon-travel"></span>
-                <span>自由行</span></a>
-            </li>
-
-
-        </ul>
-    </div>
-</section>
-<!-- 电话预定 -->
-<!--<section>-->
-<!--    -->
-<!--</section>-->
-<!-- 版权 -->
-<footer class="">
-    <div id="footer">
-        <a href="#">网站地图</a>
-        <span>| </span><a href="#">laguage</a>
-        <span>| </span><a href="#">电脑版</a>
-    </div>
-</footer>
-
-
+手机摇一摇，改变手机屏幕颜色。
+<p>x 方向</p>
+<p id="x"></p>
+ 
+<p>y 方向</p>
+<p id="y"></p>
+ 
+<p>z 方向</p>
+<p id="z"></p>
 </body>
-
-</html>
